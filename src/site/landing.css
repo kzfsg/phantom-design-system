@@ -1,0 +1,892 @@
+/* Phantom landing page. Built on design-system/phantom.css and the @/phantom presets. */
+
+.site {
+  overflow-x: clip;
+}
+
+.wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.t-muted {
+  color: var(--resting);
+}
+
+.on-dark .t-muted {
+  color: var(--dendrite);
+}
+
+.btn--sm {
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  font-size: 0.9375rem;
+}
+
+a.btn {
+  text-decoration: none;
+}
+
+.site a:not(.btn) {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+.skip {
+  position: absolute;
+  left: var(--space-3);
+  top: -100px;
+  z-index: 100;
+  padding: var(--space-2) var(--space-3);
+  background: var(--impulse);
+  color: var(--ink);
+  border-radius: var(--r-pill);
+}
+
+.skip:focus {
+  top: var(--space-3);
+}
+
+/* ── nav: glass, ink by default, white over dark sections ─────────── */
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  color: var(--ink);
+  transition: transform 500ms var(--ease-spike), color 300ms ease;
+}
+
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -24px;
+  z-index: -1;
+  opacity: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  transition: opacity 300ms ease;
+}
+
+.nav.is-scrolled::before {
+  opacity: 1;
+}
+
+.nav.is-dark {
+  color: var(--impulse);
+}
+
+.nav.is-hidden {
+  transform: translateY(-110%);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  height: 72px;
+}
+
+.nav__brand {
+  text-decoration: none;
+}
+
+.nav__inner > nav {
+  margin-left: auto;
+}
+
+.nav__links {
+  display: flex;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 550;
+  font-size: 0.9375rem;
+}
+
+.nav__links a {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.nav__links a:hover {
+  opacity: 1;
+}
+
+.nav.is-dark .nav__cta {
+  background: var(--impulse);
+  color: var(--ink);
+}
+
+/* ── hero ──────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  background: var(--void);
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero__field {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 40%);
+}
+
+.hero__inner {
+  width: 100%;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  padding-top: 140px;
+  padding-bottom: var(--space-6);
+}
+
+.hero__mark {
+  margin-left: -0.05em;
+}
+
+.hero__title {
+  max-width: 20ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+/* ── bands ─────────────────────────────────────────── */
+
+.band {
+  padding: var(--space-7) 0;
+}
+
+.band--glia {
+  background: var(--glia);
+}
+
+.band--void {
+  background: var(--void);
+}
+
+.band__head {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 22ch;
+  margin-bottom: var(--space-6);
+}
+
+.band__head .t-body {
+  max-width: 60ch;
+}
+
+.band__head:has(.t-body) {
+  max-width: none;
+}
+
+.band__head:has(.t-body) .t-display {
+  max-width: 22ch;
+}
+
+/* problem */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.split__copy {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.split__copy .t-display {
+  max-width: 14ch;
+}
+
+.quote {
+  margin: 0;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--ink);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.quote .t-title {
+  max-width: 30ch;
+}
+
+.split__figures {
+  display: grid;
+  gap: var(--space-5);
+  padding-top: var(--space-3);
+}
+
+/* options: a list with hairlines, TENS set apart because it's what Phantom builds on */
+.options {
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.options__row {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: var(--space-4);
+  align-items: baseline;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.options__row dd {
+  margin: 0;
+  color: var(--resting);
+}
+
+.options__row--tens {
+  margin: var(--space-3) calc(var(--space-4) * -1) 0;
+  padding: var(--space-4);
+  border: 0;
+  border-radius: var(--r-tile);
+  background: var(--void);
+  color: var(--impulse);
+}
+
+.options__row--tens dd {
+  color: var(--dendrite);
+}
+
+.options__close {
+  margin-top: var(--space-5);
+  max-width: 40ch;
+}
+
+/* ── schedule vs signal ────────────────────────────── */
+
+.shift__head .t-body {
+  color: var(--dendrite);
+}
+
+.shift__head {
+  max-width: none;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  align-items: end;
+  gap: var(--space-5);
+}
+
+.day {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.day__svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: var(--font);
+}
+
+.day__grid {
+  stroke: var(--cleft);
+  stroke-width: 1;
+}
+
+.day__tick {
+  fill: var(--dendrite);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.day__label {
+  fill: var(--dendrite);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.day__label--lit {
+  fill: var(--impulse);
+}
+
+.day__base {
+  stroke: #3a3a3a;
+  stroke-width: 2;
+}
+
+.day__base--faint {
+  stroke: var(--cleft);
+}
+
+.day__session {
+  fill: #2e2e2e;
+  transition: fill 400ms ease;
+}
+
+.day__session.is-on {
+  fill: #6b6b6b;
+}
+
+.day__pain circle {
+  fill: none;
+  stroke: #3a3a3a;
+  stroke-width: 2;
+  transition: stroke 300ms ease;
+}
+
+.day__pain .day__pain-ring {
+  stroke-dasharray: 3 5;
+  opacity: 0;
+}
+
+.day__pain.is-on circle {
+  stroke: var(--impulse);
+}
+
+.day__pain.is-on .day__pain-ring {
+  opacity: 0.45;
+}
+
+.day__pulse {
+  fill: none;
+  stroke: #3a3a3a;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke var(--t-recover) ease, filter var(--t-recover) ease;
+}
+
+.day__pulse.is-lit {
+  stroke: var(--impulse);
+  filter: drop-shadow(0 0 4px var(--glow)) drop-shadow(0 0 14px var(--glow-wide));
+  transition-duration: var(--t-spike);
+}
+
+.day__playhead {
+  stroke: var(--impulse);
+  stroke-width: 1;
+  opacity: 0.35;
+}
+
+.day__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.shift__line {
+  margin-top: var(--space-6);
+  max-width: 20ch;
+}
+
+.shift__sources {
+  margin-top: var(--space-5);
+}
+
+/* ── the loop, over the synapse ────────────────────── */
+
+.loop {
+  position: relative;
+  isolation: isolate;
+  background: var(--void);
+  padding: var(--space-7) 0;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+}
+
+.loop__field {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.loop__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.5) 35%, rgba(0, 0, 0, 0.55) 60%, rgba(0, 0, 0, 0.92) 100%);
+}
+
+.loop__inner {
+  width: 100%;
+  display: grid;
+  gap: var(--space-6);
+}
+
+.loop__inner > .t-display {
+  max-width: 16ch;
+}
+
+.loop__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.loop__step {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--r-tile);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: inset 0 0 0 1px var(--cleft);
+}
+
+.loop__step .t-body {
+  color: var(--dendrite);
+}
+
+.loop__n {
+  color: var(--dendrite);
+}
+
+/* the stimulate step is the lit cell of the loop */
+.loop__step.is-lit-step {
+  box-shadow: inset 0 0 0 1px var(--impulse), 0 0 32px var(--glow-wide);
+}
+
+.loop__step.is-lit-step .loop__n,
+.loop__step.is-lit-step .t-title {
+  color: var(--impulse);
+  text-shadow: 0 0 0.4em var(--glow);
+}
+
+.loop__later {
+  font-weight: 500;
+}
+
+/* ── inside ────────────────────────────────────────── */
+
+.inside {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-6);
+}
+
+.inside__hardware,
+.inside__pipeline {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+}
+
+.inside__module {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-radius: var(--r-tile);
+}
+
+.inside__tbd {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+.pipeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+
+.pipeline__stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+}
+
+.pipeline__name {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  border-radius: var(--r-tile);
+  background: var(--ink);
+  color: var(--impulse);
+  font-weight: 650;
+}
+
+/* the conduction line between stages */
+.pipeline__stage:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 4.75rem;
+  bottom: -0.5rem;
+  width: 2px;
+  height: 1rem;
+  background: var(--rule);
+}
+
+.pipeline__does {
+  color: var(--resting);
+}
+
+.pipeline__stage.is-trigger .pipeline__name {
+  background: var(--impulse);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--ink), 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.pipeline__stage.is-trigger .pipeline__does {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ── evidence ──────────────────────────────────────── */
+
+.evidence {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.evidence__cell {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.evidence__plot {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.evidence__next {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--space-5);
+  align-items: center;
+  margin-top: var(--space-6);
+}
+
+.evidence__measure {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.evidence__shape {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* ── roadmap ───────────────────────────────────────── */
+
+.roadmap {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--rule);
+}
+
+.roadmap__item {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-4) var(--space-4) 0;
+}
+
+.roadmap__item + .roadmap__item {
+  padding-left: var(--space-4);
+  border-left: 1px solid var(--rule);
+}
+
+.roadmap__when {
+  color: var(--resting);
+}
+
+.roadmap__item .t-body {
+  color: var(--resting);
+}
+
+.roadmap__item--far {
+  background: var(--void);
+  color: var(--impulse);
+  border-radius: 0 0 var(--r-tile) var(--r-tile);
+}
+
+.roadmap__item--far .roadmap__when,
+.roadmap__item--far .t-body {
+  color: var(--dendrite);
+}
+
+.roadmap__why {
+  margin-top: var(--space-4);
+  max-width: 60ch;
+}
+
+.milestones__head {
+  margin: var(--space-7) 0 var(--space-4);
+}
+
+.milestones {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-3);
+  position: relative;
+}
+
+.milestones::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 2.75rem;
+  height: 2px;
+  background: var(--rule);
+}
+
+.milestones__item {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+
+.milestones__dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin: var(--space-2) 0 var(--space-3);
+  background: var(--membrane);
+  position: relative;
+}
+
+.milestones__item.is-done .milestones__dot {
+  background: var(--ink);
+}
+
+.milestones__item.is-latent .milestones__dot {
+  border: 1.5px dashed var(--resting);
+}
+
+.milestones__item.is-latent .milestones__when {
+  color: var(--resting);
+}
+
+/* ── team ──────────────────────────────────────────── */
+
+.team {
+  list-style: none;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.team__person {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+
+.team__photo {
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 160px;
+  border-radius: 50%;
+  margin-bottom: var(--space-3);
+}
+
+/* ── close the loop ────────────────────────────────── */
+
+.cta {
+  position: relative;
+  isolation: isolate;
+  background: var(--void);
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-7) 0;
+}
+
+.cta__field {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.cta__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 30% 50%, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2) 80%);
+}
+
+.cta__inner {
+  width: 100%;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+}
+
+.cta__title {
+  font-size: clamp(3rem, 9vw, 7.5rem);
+  max-width: 11ch;
+}
+
+.asks {
+  list-style: none;
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+  width: 100%;
+}
+
+.asks__item {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid #3a3a3a;
+}
+
+.asks__item .t-body {
+  color: var(--dendrite);
+}
+
+.asks__n {
+  color: var(--dendrite);
+}
+
+.cta__contact {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-color: var(--dendrite);
+}
+
+.site__foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-6);
+}
+
+/* ── narrow screens ────────────────────────────────── */
+
+@media (max-width: 960px) {
+  .loop__steps,
+  .roadmap,
+  .team {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .roadmap__item:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .milestones {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .milestones::before {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .nav__links {
+    display: none;
+  }
+
+  .nav__cta {
+    margin-left: auto;
+  }
+
+  .band,
+  .loop,
+  .cta {
+    padding: var(--space-6) 0;
+  }
+
+  .split,
+  .shift__head,
+  .inside,
+  .evidence,
+  .evidence__next,
+  .asks {
+    grid-template-columns: 1fr;
+  }
+
+  .options__row {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+
+  .loop__steps,
+  .roadmap,
+  .team {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap__item,
+  .roadmap__item + .roadmap__item {
+    padding-left: 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .roadmap__item--far {
+    padding-left: var(--space-4);
+    border-radius: var(--r-tile);
+    margin-top: var(--space-3);
+  }
+
+  .pipeline__stage {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+  }
+
+  .pipeline__stage:not(:last-child)::after {
+    left: 3.75rem;
+  }
+
+  .hero__scrim {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 70%);
+  }
+}

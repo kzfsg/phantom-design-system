@@ -375,7 +375,7 @@ import { MosaicBackground, FireButton, Stimulating, Reading, State } from '@/pha
       </main>
       <footer className="ds-foot">
         <Wordmark size="1.25rem" />
-        <span className="t-note">Shaders and components from React Bits, adapted for Phantom.</span>
+        <span className="t-note">Shaders and components from React Bits, adapted for Phantom. <a href="#/">Back to the landing page</a></span>
       </footer>
     </>
   );
