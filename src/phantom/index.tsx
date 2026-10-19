@@ -191,6 +191,15 @@ export function FireButton({ children, onClick, disabled }: { children: ReactNod
   );
 }
 
+/** A region where every click sparks like a synapse firing. On dark; fills its parent. */
+export function SparkArea({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <ClickSpark className={className} sparkColor={[color.impulse, color.axon]} sparkCount={14} sparkRadius={44} sparkSize={12} shape="streak" glow={0.7} duration={520}>
+      {children}
+    </ClickSpark>
+  );
+}
+
 /** A surface that carries current while stimulation runs. `active={false}` is the same surface at rest. */
 export function Stimulating({ active, children, className }: { active: boolean; children: ReactNode; className?: string }) {
   return (

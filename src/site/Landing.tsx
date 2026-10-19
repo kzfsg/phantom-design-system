@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { FiringField, InView, MosaicBackground, Reading, SignalHeadline, State, SynapseField, Trace, Wordmark, type Tone } from '@/phantom';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FiringField, InView, MosaicBackground, Reading, SignalHeadline, SparkArea, State, SynapseField, Trace, Wordmark, useReducedMotion } from '@/phantom';
+import { HeroScope, type HeroScopeHandle, type Phase, type ScopeReading } from './HeroScope';
 import { DayTrace } from './DayTrace';
 import './landing.css';
 
@@ -101,23 +102,103 @@ function useNavState() {
   return state;
 }
 
-/** The hero fires once, after the headline lights: the page's one unprompted moment. */
-function useOpeningPulse() {
-  const [tone, setTone] = useState<Tone>('rest');
-  const timers = useRef<number[]>([]);
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    timers.current.push(window.setTimeout(() => setTone('fire'), 1900));
-    timers.current.push(window.setTimeout(() => setTone('rest'), 3300));
-    const list = timers.current;
-    return () => list.forEach(clearTimeout);
+/** The hero runs the closed loop on repeat: quiet muscle, a guarding burst, Phantom firing, recovery.
+ *  The mosaic, the wordmark, the status and the readouts all follow the simulated trace. A click fires at once. */
+function useLoop() {
+  const [phase, setPhase] = useState<Phase>('rest');
+  const [reading, setReading] = useState<ScopeReading>({ phase: 'rest', microvolts: 9 });
+  const [pulses, setPulses] = useState(0);
+  const [lastPulse, setLastPulse] = useState<number | null>(null);
+  const [now, setNow] = useState(() => Date.now());
+  const onPhase = useCallback((p: Phase) => {
+    setPhase(p);
+    if (p === 'fire') {
+      setPulses((n) => n + 1);
+      setLastPulse(Date.now());
+    }
   }, []);
-  return tone;
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(Date.now()), 500);
+    return () => clearInterval(id);
+  }, []);
+  const since = lastPulse === null ? null : Math.max(0, Math.round((now - lastPulse) / 1000));
+  return { phase, reading, pulses, since, onPhase, onReading: setReading };
+}
+
+const PHASE_STATE: Record<Phase, { is: 'rest' | 'detect' | 'fire'; label: string }> = {
+  rest: { is: 'rest', label: 'Listening' },
+  detect: { is: 'detect', label: 'Guarding detected' },
+  fire: { is: 'fire', label: 'Stimulating' },
+  recover: { is: 'rest', label: 'Relief building' },
+};
+
+const TITLE = 'Pain relief that listens to your body.';
+
+function Hero({ loop, scope, reduced }: { loop: ReturnType<typeof useLoop>; scope: React.RefObject<HeroScopeHandle | null>; reduced: boolean }) {
+  const firing = loop.phase === 'fire';
+  const state = PHASE_STATE[loop.phase];
+  return (
+    <section className={`hero on-dark${firing ? ' is-firing' : ''}`} data-nav="dark">
+      <div className="hero__field" aria-hidden="true">
+        <MosaicBackground tone={firing ? 'fire' : 'rest'} tile={16} />
+      </div>
+      <div className="hero__scrim" aria-hidden="true" />
+      <div className="hero__flash" aria-hidden="true" />
+      <SparkArea className="hero__spark">
+        <div className="hero__body" onClick={(e) => (e.target as HTMLElement).closest('a, button') || scope.current?.fire()}>
+          <div className="wrap hero__inner">
+            <SignalHeadline text="Phantom" className="t-hero hero__mark" trigger="mount" />
+            <p className="hero__title t-display" aria-label={TITLE}>
+              {TITLE.split(' ').map((word, i) => (
+                <span key={i} className="hero__word" style={{ animationDelay: `${900 + i * 110}ms` }} aria-hidden="true">
+                  {word}{' '}
+                </span>
+              ))}
+            </p>
+            <p className="t-lede hero__lede">A closed-loop wearable for knee osteoarthritis. It reads your muscles and starts TENS when pain does.</p>
+            <div className="hero__actions">
+              <a className="btn btn--fire" href="#how">
+                See how it works
+              </a>
+              {!reduced && (
+                <span className="t-note hero__hint">
+                  Or <span className="hint--fine">click</span>
+                  <span className="hint--coarse">tap</span> anywhere to fire a pulse
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="hero__scope">
+            <HeroScope ref={scope} onPhase={loop.onPhase} onReading={loop.onReading} still={reduced} />
+          </div>
+          <div className="hero__strip">
+            <div className="wrap hero__strip-inner">
+              <span className="hero__live">Simulated sleeve</span>
+              <span className="hero__state" aria-live="polite">
+                <State is={state.is}>{state.label}</State>
+              </span>
+              <span className="t-reading" aria-hidden="true">
+                sEMG <span className="hero__value">{firing ? '—' : String(loop.reading.microvolts).padStart(3, '\u2007')}</span> µV
+              </span>
+              <span className="t-reading" aria-hidden="true">
+                Pulses <span className="hero__value">{loop.pulses}</span>
+              </span>
+              <span className="t-reading hero__since" aria-hidden="true">
+                {loop.since === null ? 'No pulse yet' : firing ? 'Pulse now' : `Last pulse ${loop.since}s ago`}
+              </span>
+            </div>
+          </div>
+        </div>
+      </SparkArea>
+    </section>
+  );
 }
 
 export default function Landing() {
   const nav = useNavState();
-  const tone = useOpeningPulse();
+  const loop = useLoop();
+  const scope = useRef<HeroScopeHandle>(null);
+  const reduced = useReducedMotion();
 
   return (
     <div className="site">
@@ -127,7 +208,7 @@ export default function Landing() {
       <header className={`nav${nav.scrolled ? ' is-scrolled' : ''}${nav.dark ? ' is-dark' : ''}${nav.hidden ? ' is-hidden' : ''}`}>
         <div className="wrap nav__inner">
           <a className="nav__brand" href="#/" aria-label="Phantom home">
-            <Wordmark size="1.4rem" firing={tone === 'fire'} />
+            <Wordmark size="1.4rem" firing={loop.phase === 'fire'} />
           </a>
           <nav aria-label="Sections">
             <ul className="nav__links">
@@ -152,26 +233,7 @@ export default function Landing() {
       </header>
 
       <main id="main">
-        {/* hero: the tissue at rest, firing once */}
-        <section className="hero on-dark" data-nav="dark">
-          <div className="hero__field" aria-hidden="true">
-            <MosaicBackground tone={tone} tile={16} />
-          </div>
-          <div className="hero__scrim" aria-hidden="true" />
-          <div className="wrap hero__inner">
-            <SignalHeadline text="Phantom" className="t-hero hero__mark" trigger="mount" />
-            <p className="hero__title t-display">Pain relief that listens to your body.</p>
-            <p className="t-lede">A closed-loop wearable for knee osteoarthritis. It reads your muscles and starts TENS when pain does.</p>
-            <div className="hero__actions">
-              <a className="btn btn--fire" href="#how">
-                See how it works
-              </a>
-              <span className="hero__status" aria-live="polite">
-                <State is={tone === 'fire' ? 'fire' : 'rest'}>{tone === 'fire' ? 'Pulse firing' : 'Listening'}</State>
-              </span>
-            </div>
-          </div>
-        </section>
+        <Hero loop={loop} scope={scope} reduced={reduced} />
 
         {/* problem */}
         <section className="band" id="problem">
