@@ -1,0 +1,95 @@
+.ph-field {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ph-field__content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+}
+
+.synaptic-shift-container {
+  position: absolute;
+  inset: 0;
+}
+
+/* the spike: grey at rest; when it fires, light runs along the pulse and it glows */
+.ph-spike {
+  overflow: visible;
+}
+
+.ph-spike path {
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ph-spike__rest {
+  stroke: var(--resting);
+}
+
+.ph-spike__pulse {
+  stroke: currentColor;
+  transition: stroke var(--t-recover) ease, filter var(--t-recover) ease;
+}
+
+.ph-spike.is-firing .ph-spike__pulse {
+  stroke: var(--ink);
+  stroke-dasharray: 140;
+  animation: ph-conduct 700ms var(--ease-spike);
+  transition-duration: var(--t-spike);
+}
+
+@keyframes ph-conduct {
+  from {
+    stroke-dashoffset: 140;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.on-dark .ph-spike__rest,
+.surface--void .ph-spike__rest {
+  stroke: var(--dendrite);
+}
+
+.on-dark .ph-spike.is-firing .ph-spike__pulse,
+.surface--void .ph-spike.is-firing .ph-spike__pulse {
+  stroke: var(--impulse);
+  filter: drop-shadow(0 0 4px var(--glow)) drop-shadow(0 0 12px var(--glow-wide));
+}
+
+.ph-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.ph-wordmark .ph-spike {
+  width: 1.6em;
+  height: auto;
+}
+
+.ph-reading {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* SimpleGraph ships with a dark-scheme override; Phantom sets its own ink */
+.ph-trace .simple-graph,
+.ph-trace .simple-graph__svg {
+  color: var(--resting) !important;
+}
+
+/* React Bits' -css variants expect their parent to size them */
+.ph-field > .neural-flash {
+  width: 100%;
+  height: 100%;
+}

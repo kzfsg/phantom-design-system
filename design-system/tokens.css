@@ -1,0 +1,61 @@
+/* Phantom tokens. One idea: firing is light.
+   A neuron at rest is grey in the dark. When it fires, it glows white, the way
+   a firing cell lights up under the microscope. The system has no hue; brightness is the signal. */
+
+@import "@fontsource-variable/schibsted-grotesk";
+
+:root {
+  /* ── the dark ──────────────────────────────────── */
+  --void: #000000;        /* fields, the hero, anything a pulse can fire across */
+  --ink: #000000;         /* text and solid actions on light */
+  --cleft: #1c1c1c;       /* the gap between cells: surfaces and hairlines on dark */
+
+  /* ── at rest ───────────────────────────────────── */
+  --dendrite: #8f8f8f;    /* resting signal on dark, secondary text on dark */
+  --resting: #5c5c5c;     /* resting signal on light, secondary text on light */
+  --rule: #d4d4d4;        /* hairlines on light */
+  --glia: #e6e6e6;        /* light surfaces */
+  --membrane: #f4f4f4;    /* the page */
+
+  /* ── firing ────────────────────────────────────── */
+  --impulse: #ffffff;     /* a neuron firing: pure light, on dark only */
+  --glow: rgba(255, 255, 255, 0.55);
+  --glow-wide: rgba(255, 255, 255, 0.18);
+
+  /* ── unmeasured ────────────────────────────────── */
+  /* not a colour: a dashed membrane with nothing inside it yet */
+  --latent-line: 1.5px dashed var(--resting);
+
+  /* ── type ──────────────────────────────────────── */
+  --font: "Schibsted Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
+  /* scale: a perfect fourth (1.333) from 1rem */
+  --t-0: 0.75rem;
+  --t-1: 1rem;
+  --t-2: 1.333rem;
+  --t-3: 1.777rem;
+  --t-4: 2.369rem;
+  --t-5: 3.157rem;
+  --t-6: 4.209rem;
+  --t-hero: clamp(4.5rem, 14vw, 11rem);
+
+  /* ── shape ─────────────────────────────────────── */
+  /* radius follows hierarchy: the bigger the surface, the softer its corner */
+  --r-surface: 28px;
+  --r-tile: 14px;
+  --r-pill: 999px;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-6: 4rem;
+  --space-7: 7rem;
+  --measure: 62ch;
+
+  /* ── time ──────────────────────────────────────── */
+  /* a pulse is fast in, slow out: the rise of an action potential, then recovery */
+  --ease-spike: cubic-bezier(0.2, 0.9, 0.1, 1);
+  --t-spike: 120ms;
+  --t-recover: 900ms;
+}

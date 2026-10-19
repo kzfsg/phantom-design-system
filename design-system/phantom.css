@@ -1,0 +1,301 @@
+/* Phantom CSS layer. Works without React; the React layer in src/phantom builds on it. */
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--membrane);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--t-1);
+  line-height: 1.5;
+  font-feature-settings: "tnum" 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+:where(h1, h2, h3, h4, p, figure) {
+  margin: 0;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--impulse);
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ── type ──────────────────────────────────────────── */
+
+.t-hero {
+  font-size: var(--t-hero);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+}
+
+.t-display {
+  font-size: var(--t-5);
+  font-weight: 750;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.t-title {
+  font-size: var(--t-3);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.t-heading {
+  font-size: var(--t-2);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.t-lede {
+  font-size: var(--t-2);
+  font-weight: 400;
+  line-height: 1.4;
+  max-width: 34ch;
+}
+
+.t-body {
+  font-size: var(--t-1);
+  line-height: 1.55;
+  max-width: var(--measure);
+}
+
+.t-note {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--resting);
+  max-width: var(--measure);
+}
+
+/* the voice of a quote or a principle, as the deck sets them */
+.t-voice {
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* readings: µV, Hz, seconds. Tabular so live values don't jitter */
+.t-figure {
+  font-size: var(--t-6);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-reading {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ── surfaces ──────────────────────────────────────── */
+
+.surface {
+  border-radius: var(--r-surface);
+  padding: var(--space-5);
+  background: var(--glia);
+  color: var(--ink);
+}
+
+/* the dark a pulse fires across */
+.surface--void {
+  background: var(--void);
+  color: var(--impulse);
+}
+
+.surface--void .t-note {
+  color: var(--dendrite);
+}
+
+/* not measured yet: an empty membrane, never a borrowed number */
+.surface--latent {
+  background: transparent;
+  color: var(--resting);
+  border: var(--latent-line);
+  border-radius: var(--r-tile);
+}
+
+.on-dark {
+  color: var(--impulse);
+}
+
+.on-dark .t-note,
+.on-dark .t-lede {
+  color: var(--dendrite);
+}
+
+/* ── light ─────────────────────────────────────────── */
+
+/* anything firing glows. Only ever on dark */
+.is-lit {
+  color: var(--impulse);
+  text-shadow: 0 0 0.35em var(--glow), 0 0 1.4em var(--glow-wide);
+}
+
+/* ── actions ───────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--r-pill);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  background: var(--ink);
+  color: var(--impulse);
+  transition: background-color 200ms ease, box-shadow var(--t-recover) ease, transform var(--t-spike) var(--ease-spike);
+}
+
+.btn:hover {
+  background: #2a2a2a;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* the one action that fires a pulse: a lit cell. On dark it glows; pressing it flares */
+.btn--fire {
+  background: var(--impulse);
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--impulse), 0 0 24px var(--glow-wide);
+}
+
+.btn--fire:hover {
+  background: var(--impulse);
+  box-shadow: 0 0 0 1px var(--impulse), 0 0 36px var(--glow);
+}
+
+.btn--fire:active {
+  box-shadow: 0 0 0 1px var(--impulse), 0 0 64px var(--glow);
+  transition-duration: 200ms, var(--t-spike), var(--t-spike);
+}
+
+/* on dark, a plain action is a grey cell so it never competes with a lit one */
+.on-dark .btn:not(.btn--fire, .btn--quiet) {
+  background: #2e2e2e;
+  color: var(--impulse);
+}
+
+.on-dark .btn:not(.btn--fire, .btn--quiet):hover {
+  background: #3d3d3d;
+}
+
+.btn--quiet {
+  background: transparent;
+  color: inherit;
+  box-shadow: inset 0 0 0 1.5px currentColor;
+}
+
+.btn--quiet:hover {
+  background: rgba(127, 127, 127, 0.14);
+}
+
+/* ── states of the loop ────────────────────────────── */
+
+.state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.state::before {
+  content: "";
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* rest: an empty ring */
+.state--rest {
+  color: var(--resting);
+}
+
+.state--rest::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px currentColor;
+}
+
+/* detect: a filled cell, not yet firing */
+.state--detect {
+  color: var(--ink);
+}
+
+/* fire: the cell lights and rings outward */
+.state--fire {
+  color: var(--ink);
+}
+
+.state--fire::before {
+  animation: phantom-fire 1.2s var(--ease-spike) infinite;
+}
+
+/* latent: a dashed ring, nothing inside */
+.state--latent {
+  color: var(--resting);
+}
+
+.state--latent::before {
+  background: transparent;
+  border: 1.5px dashed currentColor;
+}
+
+.on-dark .state--rest,
+.on-dark .state--latent {
+  color: var(--dendrite);
+}
+
+.on-dark .state--detect,
+.on-dark .state--fire {
+  color: var(--impulse);
+}
+
+.on-dark .state--fire::before {
+  box-shadow: 0 0 10px var(--glow);
+}
+
+@keyframes phantom-fire {
+  0% {
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  70% {
+    box-shadow: 0 0 0 0.7em transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

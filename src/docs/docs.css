@@ -1,0 +1,423 @@
+/* Catalogue layout. Not part of the system; the system lives in design-system/ and src/phantom. */
+
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+
+/* ── hero ──────────────────────────────────────────── */
+
+.ds-hero {
+  position: relative;
+  min-height: 100svh;
+  background: var(--void);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ds-hero__field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* keeps type legible over the brightest waves without dimming the field's edges */
+.ds-hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.45) 55%, rgba(0, 0, 0, 0) 100%);
+}
+
+.ds-hero__inner {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.ds-hero__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ds-hero__state .state--rest {
+  color: var(--dendrite);
+}
+
+.ds-hero__main {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+}
+
+.ds-hero__main .t-hero {
+  margin-left: -0.05em;
+}
+
+/* ── rows ──────────────────────────────────────────── */
+
+.ds-board {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.ds-row {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: var(--space-5);
+  padding: var(--space-7) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.ds-row:first-child {
+  border-top: 0;
+}
+
+.ds-row__head {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  position: sticky;
+  top: var(--space-5);
+  align-self: start;
+}
+
+.ds-row__body {
+  min-width: 0;
+}
+
+.ds-sub {
+  margin: var(--space-5) 0 var(--space-3);
+}
+
+.ds-sub:first-child {
+  margin-top: 0;
+}
+
+/* ── rules ─────────────────────────────────────────── */
+
+.ds-rules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.ds-rule {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.ds-rule figcaption {
+  font-size: 0.9375rem;
+  color: var(--resting);
+}
+
+.ds-rule figcaption strong {
+  display: block;
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.ds-rule__stage {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-surface);
+  background: var(--glia);
+  color: var(--resting);
+  border: 0;
+  padding: var(--space-4);
+  font: inherit;
+  text-align: center;
+  width: 100%;
+}
+
+.ds-rule__stage--press {
+  cursor: pointer;
+  background: var(--ink);
+}
+
+.ds-rule__stage--press .ph-spike__rest {
+  stroke: var(--dendrite);
+}
+
+.ds-rule__stage--press .ph-spike__pulse {
+  stroke: var(--dendrite);
+}
+
+.ds-rule__stage--press.is-on .ph-spike__pulse {
+  stroke: var(--impulse);
+  filter: drop-shadow(0 0 4px var(--glow)) drop-shadow(0 0 14px var(--glow-wide));
+  transition-duration: var(--t-spike);
+}
+
+/* ── colour ────────────────────────────────────────── */
+
+.ds-swatches {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: var(--space-4) var(--space-3);
+}
+
+.ds-swatch {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+}
+
+.ds-swatch__chip {
+  height: 88px;
+  border-radius: var(--r-tile);
+  margin-bottom: var(--space-2);
+  box-shadow: inset 0 0 0 1px rgba(15, 42, 61, 0.08);
+}
+
+.ds-swatch__hex {
+  font-size: 0.875rem;
+  color: var(--resting);
+}
+
+/* ── type ──────────────────────────────────────────── */
+
+.ds-type {
+  display: grid;
+}
+
+.ds-type__row {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: baseline;
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.ds-type__row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.ds-type__hero {
+  font-size: clamp(3.5rem, 9vw, 7rem);
+}
+
+/* ── the loop ──────────────────────────────────────── */
+
+.ds-loop {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5) var(--space-4);
+}
+
+.ds-loop__step {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.ds-loop__field {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  border-radius: var(--r-surface);
+  overflow: hidden;
+  background: var(--void);
+}
+
+.ds-loop__label {
+  position: absolute;
+  left: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 20;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  pointer-events: none;
+}
+
+.ds-loop__label .t-reading {
+  color: var(--dendrite);
+}
+
+/* ── components ────────────────────────────────────── */
+
+.ds-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.ds-cell {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--r-surface);
+  box-shadow: inset 0 0 0 1px var(--rule);
+  /* the electric border's glow canvas bleeds past its surface; keep it inside the cell */
+  overflow: hidden;
+}
+
+.ds-cell--wide {
+  grid-column: 1 / -1;
+}
+
+.ds-cell--dark {
+  box-shadow: none;
+}
+
+.ds-stage {
+  margin-top: var(--space-4);
+}
+
+.ds-stage--row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.ds-stage--column {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.ds-session {
+  border-radius: var(--r-surface);
+}
+
+.ds-session__card {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  min-height: 300px;
+  align-content: center;
+}
+
+.ds-session__card .t-display {
+  max-width: 16ch;
+}
+
+.ds-code {
+  margin: 0;
+  padding: var(--space-4);
+  border-radius: var(--r-tile);
+  background: var(--ink);
+  color: var(--glia);
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.ds-foot {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* ── narrow screens ────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .ds-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding: var(--space-6) 0;
+  }
+
+  .ds-row__head {
+    position: static;
+  }
+
+  .ds-rules,
+  .ds-loop,
+  .ds-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ds-type__row {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .ds-hero__scrim {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.35) 70%);
+  }
+}
+
+/* ── black and white additions ─────────────────────── */
+
+.ds-firing {
+  margin-top: var(--space-5);
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-4);
+}
+
+.on-dark .ds-swatch__hex {
+  color: var(--dendrite);
+}
+
+.ds-swatch__chip--lit {
+  background: var(--impulse);
+  box-shadow: 0 0 18px var(--glow), 0 0 48px var(--glow-wide);
+}
+
+.ds-swatch__chip--glow {
+  background: radial-gradient(circle at 50% 50%, var(--impulse) 0 6%, var(--glow) 18%, var(--glow-wide) 42%, transparent 70%), var(--void);
+  box-shadow: inset 0 0 0 1px var(--cleft);
+}
+
+.ds-swatch__chip--latent {
+  background: transparent;
+  border: var(--latent-line);
+  box-shadow: none;
+}
+
+.ds-loop__step--wide {
+  grid-column: 1 / -1;
+}
+
+.ds-loop__step--wide .ds-loop__field {
+  aspect-ratio: 21 / 9;
+}
+
+@media (max-width: 860px) {
+  .ds-loop__step--wide .ds-loop__field {
+    aspect-ratio: 5 / 4;
+  }
+}
+
+.ds-rule__stage svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.ds-rule__stage.surface--latent {
+  background: transparent;
+  border: var(--latent-line);
+}
+
+.ds-session__card--cleft {
+  background: var(--cleft);
+  color: var(--impulse);
+}

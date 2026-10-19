@@ -1,2 +1,8 @@
 .atlas/
 .mcp.json
+node_modules/
+.env*
+!.env.example
+.playwright-mcp/
+dist/
+*.tsbuildinfo
